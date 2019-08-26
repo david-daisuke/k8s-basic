@@ -6,24 +6,24 @@ metadata:
     app: wordpress
 spec:
   ports:
-    - port: 3306
+    - port: 3306　　
   selector:
     app: wordpress
     tier: mysql
   clusterIP: None
 ---
 apiVersion: v1
-kind: PersistentVolumeClaim
+kind: PersistentVolumeClaim　　　#PVを要求する
 metadata:
-  name: mysql-pv-claim
+  name: mysql-pv-claim　　     　#PVCネーム mysql-pv-claim とする
   labels:
-    app: wordpress
+    app: wordpress              #アプリアはwordpress
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteOnce　　　　　　　　#アクセスモードをRWOと設定
   resources:
     requests:
-      storage: 20Gi
+      storage: 20Gi              #20Giストレージを要求
 ---
 apiVersion: apps/v1 # for k8s versions before 1.9.0 use apps/v1beta2  and before 1.8.0 use extensions/v1beta1
 kind: Deployment
@@ -59,7 +59,7 @@ spec:
         volumeMounts:
         - name: mysql-persistent-storage
           mountPath: /var/lib/mysql
-      volumes:
-      - name: mysql-persistent-storage
+      volumes:                           #ここでボリュームの詳細を設定
+      - name: mysql-persistent-storage   #　ボリューム名を命名
         persistentVolumeClaim:
-          claimName: mysql-pv-claim
+          claimName: mysql-pv-claim      #クレームネームは mysql-pv-claim
